@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Report</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Admin Report</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #34495e;
+            --bg-color: #f4f4f9;
+            --container-bg: rgba(255, 255, 255, 0.95);
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: url('https://i.ibb.co/0RFkWYsV/IMG-20260714-191551-652.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.5;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        #report-container {
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            backdrop-filter: blur(5px);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .header-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header-info div {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-info span {
+            width: 70px;
+            flex-shrink: 0;
+        }
+
+        /* Server row spans both columns on desktop */
+        .server-row {
+            grid-column: span 2;
+        }
+
+        input[type="text"], input[type="date"], input[type="number"], textarea, select {
+            font-family: inherit;
+            font-size: 14px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fafafa;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+            margin-top: 5px;
+            white-space: pre-wrap;
+        }
+
+        input.inline-input {
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+            padding: 4px;
+            margin: 0 5px;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            background-color: transparent;
+            border-radius: 0;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .task-item {
+            margin-bottom: 18px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .task-item > strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-size: 15px;
+        }
+
+        .sub-section {
+            margin-left: 20px;
+            padding-left: 15px;
+            border-left: 3px solid var(--border-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #eee;
+        }
+
+        .checkbox-grid label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+
+        .checkbox-grid input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .format-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .format-row span {
+            font-weight: bold;
+            color: var(--accent-color);
+            white-space: nowrap;
+        }
+
+        .add-row-btn {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: 1px dashed #bdc3c7;
+            padding: 5px 15px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.2s;
+        }
+
+        .add-row-btn:hover {
+            background-color: #bdc3c7;
+        }
+
+        .action-container {
+            margin-top: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .download-btn {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .download-btn:hover {
+            background-color: #21618c;
+        }
+
+        .helper-text {
+            color: #7f8c8d;
+            font-size: 12px;
+            margin-top: 3px;
+            display: block;
+        }
+
+        /* Screenshot Mode Styling */
+        .screenshot-mode input[type="text"], 
+        .screenshot-mode input[type="date"],
+        .screenshot-mode input[type="number"],
+        .screenshot-mode select {
+            border: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            color: #000;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+        
+        .screenshot-mode input.inline-input {
+            border-bottom: 1px solid #000 !important;
+        }
+
+        .screenshot-mode .format-row,
+        .screenshot-mode .checkbox-grid {
+            background: transparent;
+            border: none;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        
+        .screenshot-mode .format-row {
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .screenshot-mode .add-row-btn {
+            display: none !important;
+        }
+
+        .textarea-replacement {
+            white-space: pre-wrap;
+            word-break: break-word;
+            padding: 0;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-info, .grid-2, .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+            .server-row {
+                grid-column: span 1;
+            }
+            .format-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .format-row input, .format-row select {
+                width: 100%;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <datalist id="server-options">
+        <option value="Continental">
+        <option value="Vatican">
+    </datalist>
+
+    <div id="report-container">
+        <h2>📋 Weekly Admin Report</h2>
+        
+        <div class="header-info">
+            <div><span>Name:</span> <input type="text" placeholder=""></div>
+            <div><span>Date:</span> <input type="text" placeholder=""></div>
+            <div class="server-row">
+                <span>Server:</span> 
+                <input type="text" list="server-options" placeholder="">
+            </div>
+        </div>
+
+        <div class="section-title">Work Completed</div>
+
+        <div class="task-item">
+            <strong>1. In-Game Administrative Reports</strong>
+            Managed and resolved <input type="number" class="inline-input" placeholder=""> in-game administrative reports by investigating player misconduct and ensuring the swift, fair enforcement of server rules.
+        </div>
+
+        <div class="task-item">
+            <strong>2. Forum Complaint Handling</strong>
+            Oversaw the forum complaint system by thoroughly investigating reported rule violations, analyzing evidence, and issuing fair decisions in accordance with server guidelines.
+        </div>
+
+        <div class="task-item">
+            <strong>3. Chat Violation Monitoring</strong>
+            Actively monitored the Chat Violation sections, promptly taking disciplinary action against infractions to maintain consistent rule enforcement across the server.
+        </div>
+
+        <div class="task-item">
+            <strong>4. Support Agent Forum Management</strong>
+            Tracked quota submissions and reviewed Support Agent reports every Thursday and Sunday to ensure full compliance with standard server protocols.
+        </div>
+
+        <div class="task-item">
+            <strong>5. In-Game Support Chat Monitoring</strong>
+            Regularly audited chat logs to identify rule violations and suspicious behavior, leading investigations and coordinating with relevant teams for necessary escalations.
+        </div>
+
+        <div class="task-item">
+            <strong>6. Support Instruction & Guidance</strong>
+            Trained and guided new Support Agents on /ask command protocols, daily activity requirements, and core responsibilities, ensuring strict alignment with server regulations.
+        </div>
+
+        <div class="task-item">
+            <strong>7. HR Team Duties</strong>
+            Successfully conducted and completed interviews for faction applicants this week.
+            
+            <div class="checkbox-grid" id="hr-checkbox-grid">
+                <label><input type="checkbox" value="FSB"> FSB</label>
+                <label><input type="checkbox" value="STSI"> State Traffic Safety Inspectorate</label>
+                <label><input type="checkbox" value="MIA"> Ministry of Internal Affairs</label>
+                <label><input type="checkbox" value="Army"> Army</label>
+                <label><input type="checkbox" value="Hospital Yuzhny"> Hospital of the city of Yuzhny</label>
+                <label><input type="checkbox" value="Hospital Arzamas"> Hospital of the city of Arzamas</label>
+                <label><input type="checkbox" value="OTV"> OTV</label>
+                <label><input type="checkbox" value="RTV"> RTV</label>
+                <label><input type="checkbox" value="EMERCOM"> EMERCOM of Russia</label>
+                <label><input type="checkbox" value="Real Guys"> Real guys</label>
+                <label><input type="checkbox" value="Peaky Blinders"> Peaky Blinders</label>
+                <label><input type="checkbox" value="Tambov OCG"> Tambov Organized Crime Group</label>
+                <label><input type="checkbox" value="Izmaylovo OCG"> Izmaylovo Organized Crime Group</label>
+                <label><input type="checkbox" value="Support Interview"> Support Interview</label>
+            </div>
+        </div>
+
+        <div class="section-title">8. Supports Staff Management & Enforcement</div>
+
+        <div class="sub-section">
+            <div class="task-item">
+                <strong>Promotions</strong>
+                <textarea placeholder="[Add names vertically here...]" rows="2"></textarea>
+            </div>
+
+            <div class="task-item">
+                <strong>New Recruitments</strong>
+                <textarea placeholder="[Add names vertically here...]" rows="2"></textarea>
+            </div>
+
+            <h4 style="color: var(--primary-color); margin-bottom: 10px;">Support Agent Monitoring & Supervision</h4>
+            
+            <div class="task-item" style="display: flex; align-items: center;">
+                <strong style="margin-right: 10px; margin-bottom: 0;">Total Number of Support Agents:</strong>
+                <input type="number" placeholder="0" style="width: 100px;">
+            </div>
+
+            <div class="grid-2">
+                <div class="task-item">
+                    <strong>Steady Performers:</strong>
+                    <textarea placeholder="[Type each name on a new line]" rows="4"></textarea>
+                </div>
+                <div class="task-item">
+                    <strong>Consistent Agents:</strong>
+                    <textarea placeholder="[Type each name on a new line]" rows="4"></textarea>
+                </div>
+                <div class="task-item">
+                    <strong>Needs Improvement:</strong>
+                    <textarea placeholder="[Type each name on a new line]" rows="4"></textarea>
+                </div>
+                <div class="task-item">
+                    <strong>Special Monitoring:</strong>
+                    <textarea placeholder="[Type each name on a new line]" rows="4"></textarea>
+                    <span class="helper-text">(Note: Monitoring continues this week and will conclude next week)</span>
+                </div>
+            </div>
+
+            <div class="task-item" style="margin-top: 25px;">
+                <strong>Terminations</strong>
+                <div id="terminations-container">
+                    <div class="format-row">
+                        <span>Name:</span> <input type="text" placeholder="" style="flex: 2;">
+                        <span>Reason:</span> <input type="text" placeholder="" style="flex: 2;">
+                        <span>Date:</span> <input type="text" placeholder="" style="flex: 1;">
+                    </div>
+                </div>
+                <button class="add-row-btn" onclick="addTerminationRow()">+ Add Another</button>
+            </div>
+
+            <div class="task-item">
+                <strong>Active Punishments/Penalties (Current Support Team)</strong>
+                <div id="punishments-container">
+                    <div class="format-row">
+                        <span>Name:</span> <input type="text" placeholder="" style="flex: 2;">
+                        <span>Reason:</span> <input type="text" placeholder="" style="flex: 2;">
+                        <span>Date:</span> <input type="text" placeholder="" style="flex: 1;">
+                        <span>Active:</span> 
+                        <select style="flex: 1;">
+                            <option value="Yes" selected>Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="add-row-btn" onclick="addPunishmentRow()">+ Add Another</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-container">
+        <button class="download-btn" id="downloadBtn">📸 Download Report as Image</button>
+    </div>
+
+    <script>
+        function addTerminationRow() {
+            const container = document.getElementById('terminations-container');
+            const rowHTML = `
+                <div class="format-row">
+                    <span>Name:</span> <input type="text" placeholder="" style="flex: 2;">
+                    <span>Reason:</span> <input type="text" placeholder="" style="flex: 2;">
+                    <span>Date:</span> <input type="text" placeholder="" style="flex: 1;">
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', rowHTML);
+        }
+
+        function addPunishmentRow() {
+            const container = document.getElementById('punishments-container');
+            const rowHTML = `
+                <div class="format-row">
+                    <span>Name:</span> <input type="text" placeholder="" style="flex: 2;">
+                    <span>Reason:</span> <input type="text" placeholder="" style="flex: 2;">
+                    <span>Date:</span> <input type="text" placeholder="" style="flex: 1;">
+                    <span>Active:</span> 
+                    <select style="flex: 1;">
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', rowHTML);
+        }
+
+        // Auto-resize textareas based on input
+        document.querySelectorAll('textarea').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const container = document.getElementById('report-container');
+            const btn = this;
+            const textareas = document.querySelectorAll('textarea');
+            const textareaReplacements = [];
+            
+            // Hide unchecked HR items
+            const checkboxes = document.querySelectorAll('#hr-checkbox-grid input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (!cb.checked) {
+                    cb.parentElement.style.display = 'none';
+                }
+            });
+
+            // Convert Textareas to Divs so line breaks (vertical lists) render correctly in html2canvas
+            textareas.forEach(ta => {
+                const div = document.createElement('div');
+                div.className = 'textarea-replacement';
+                div.style.fontFamily = getComputedStyle(ta).fontFamily;
+                div.style.fontSize = getComputedStyle(ta).fontSize;
+                div.innerText = ta.value ? ta.value : ''; 
+                if(!ta.value && ta.placeholder) {
+                    div.innerText = ta.placeholder;
+                    div.style.color = "#999";
+                }
+                
+                ta.parentNode.insertBefore(div, ta);
+                ta.style.display = 'none';
+                textareaReplacements.push({ textarea: ta, div: div });
+            });
+            
+            // Add screenshot mode class
+            container.classList.add('screenshot-mode');
+            btn.innerText = "⏳ Processing...";
+            btn.disabled = true;
+
+            html2canvas(container, {
+                scale: 2, 
+                backgroundColor: null,
+                windowWidth: container.scrollWidth,
+                windowHeight: container.scrollHeight
+            }).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'Weekly_Admin_Report.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                restoreState();
+            }).catch(err => {
+                console.error("Screenshot failed: ", err);
+                restoreState();
+                alert("Failed to capture the image. Check console for details.");
+            });
+
+            // Helper to restore the page state after screenshot
+            function restoreState() {
+                container.classList.remove('screenshot-mode');
+                checkboxes.forEach(cb => {
+                    cb.parentElement.style.display = 'flex';
+                });
+                textareaReplacements.forEach(item => {
+                    item.div.remove();
+                    item.textarea.style.display = 'block';
+                });
+                
+                btn.innerText = "📸 Download Report as Image";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
